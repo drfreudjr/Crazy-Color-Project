@@ -4,7 +4,7 @@ let cl = console.log;
 
 const elcanvas = document.querySelector("canvas")
 const context = elcanvas.getContext("2d");
-let boxColor = "#666666"
+let boxColor = "#666666"                            //Starting color
 
 
 
@@ -23,14 +23,18 @@ RGBDecimalsFromHexString = function (hexcolorString) {
     return rgbDecimalArray 
 }
 
+// convertDecimalToHexColor(decColorArray) {  //Takes RGB decimal array returns #hex rgb
+//     cl(decColorArray)
+
+// }
+
+
 function getRandomChange (currentDecimalColor) {    //Tested for all values
     colorToChange = ''
     direction = ''
     startingRedValue = currentDecimalColor[0]
     startingGreenValue = currentDecimalColor[1]
     startingBlueValue = currentDecimalColor[2]
-
-    cl(startingRedValue, startingGreenValue, startingBlueValue)
 
     ranColor = Math.round(Math.random() * 2) // Between 0-2
     if (ranColor == 0) 
@@ -41,10 +45,7 @@ function getRandomChange (currentDecimalColor) {    //Tested for all values
     else
         colorToChange = 'blue'
 
-    // cl(colorToChange)
-
     ranDirection = Math.round(Math.random() * 1) //0 up 1 down
-
     if (currentDecimalColor[ranColor] <= 0)  // check lower bound
         direction = 'up'
     else if (currentDecimalColor[ranColor] >= 255) //check upper bound
@@ -54,20 +55,34 @@ function getRandomChange (currentDecimalColor) {    //Tested for all values
     else
         direction = 'down'
 
-    cl(colorToChange, direction)
-
+    // cl(colorToChange, direction)
+    colorDirectionArray = [ direction, ranColor, colorToChange];
+    return colorDirectionArray
 }
 
-getRandomChange([88,88,88])
 
 function crazyColor (hexColor) {
     decColor = RGBDecimalsFromHexString (hexColor)
-    // cl (decColor)
-
+    randomChange = getRandomChange(decColor)
+    colorToChange = randomChange[1]
+    direction = randomChange[0]
+    // cl(randomChange)
+    // cl (colorToChange, direction)
+    cl (decColor)
+    if (direction == "down")
+        -- decColor[colorToChange]
+    else
+        ++ decColor[colorToChange]
+    cl(decColor)
+    // finalString = convertDecimalToHexColor(decColor)
 }
 
-drawScreen();
+crazyColor('#888888')
 
+function gameLoop() {    
+    window.setTimeout(gameLoop, 20);    
+    drawScreen()
+}
 
 function drawScreen() {
  //make changes here.
@@ -77,5 +92,5 @@ function drawScreen() {
     context.fillRect(0,0,400,300)
 }
 
-crazyColor(boxColor)
+
 

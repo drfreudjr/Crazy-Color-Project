@@ -8,96 +8,73 @@ let boxColor = "#666666"                            //Starting color
 
 
 
-RGBDecimalsFromHexString = function (hexcolorString) { 
-
-    const colorArray= hexcolorString.split("")              // eg ['#','1','3','f','a','0','e']
-    const redString = colorArray[1] + colorArray[2]         
+function getRGBDecimalArrayFromHexString (hexColorString) { // Tested: input '#fffa0e': output RGB array
+    const colorArray= hexColorString.split("")              // eg ['#','f','f','f','a','0','e']
+    const redString = colorArray[1] + colorArray[2]         // eg 'FF'
     const greenString = colorArray[3] + colorArray[4]
     const blueString = colorArray[5] +colorArray[6]
 
-    const redDecimalNumber = parseInt(redString, 16)        // 2nd parameter is base
-    const greenDecimalNumber = parseInt(greenString, 16)
-    const blueDecimalNumber = parseInt(blueString, 16)
+    const redDecimal = parseInt(redString, 16)        // 2nd parameter is base
+    const greenDecimal = parseInt(greenString, 16)
+    const blueDecimal = parseInt(blueString, 16)
 
-    let rgbDecimalArray  = [redDecimalNumber, greenDecimalNumber, blueDecimalNumber]
+    const rgbDecimalArray  = [redDecimal, greenDecimal, blueDecimal]
     return rgbDecimalArray 
 }
 
-
-
-
-function getRandomChange (currentDecimalColor) {    //Tested for all values
-    colorToChange = ''
-    direction = ''
-    startingRedValue = currentDecimalColor[0]
-    startingGreenValue = currentDecimalColor[1]
-    startingBlueValue = currentDecimalColor[2]
-
-    ranColor = Math.round(Math.random() * 2) // Between 0-2
-    if (ranColor == 0) 
-        colorToChange = 'red'
-    else if 
-        (ranColor == 1)
-        colorToChange = 'green'
-    else
-        colorToChange = 'blue'
-
-    ranDirection = Math.round(Math.random() * 1) //0 up 1 down
-    if (currentDecimalColor[ranColor] <= 0)  // check lower bound
-        direction = 'up'
-    else if (currentDecimalColor[ranColor] >= 255) //check upper bound
-        direction = 'down'
-    else if (ranDirection  == 0) // else use random
-        direction = 'up'
-    else
-        direction = 'down'
-
-    // cl(colorToChange, direction)
-    colorDirectionArray = [ direction, ranColor, colorToChange];
-    return colorDirectionArray
-}
-
-function convertBacktoHex(decColor) {
-    decRed = decColor[0]
-    decGreen = decColor[1]
-    decBlue = decColor[2]
-
-    decRed = 120 //test
-    decGreen = 255
-    decBlue = 212
+function getHexStringFromDecimalArray(rgbArray) {  // Tested: input [123,255,0]: output '#7bff00'
+    decRed = rgbArray[0]
+    decGreen = rgbArray[1]
+    decBlue = rgbArray[2]
 
     hexRed = decRed.toString(16)
     hexGreen = decGreen.toString(16)
     hexBlue = decBlue.toString(16)
 
-    // cl(hexRed, hexGreen,hexBlue)
-
-    if (hexRed.length == 1)
+    if (hexRed.length == 1)     // Add leading zero for single digit numbers
         hexRed = "0"+ hexRed
     if (hexGreen.length ==1)
         hexGreen = "0" + hexGreen
     if (hexBlue.length ==1)
         hexBlue = "0" + hexBlue
-    // cl(hexRed, hexGreen,hexBlue)
+
     let finalString = '#' + hexRed + hexGreen + hexBlue
-    // cl(finalString)
     return(finalString)
 }
 
-function crazyColor (hexColor) {
-    decColor = RGBDecimalsFromHexString (hexColor)
-    randomChange = getRandomChange(decColor)
-    colorToChange = randomChange[1]
-    direction = randomChange[0]
-    // cl(randomChange)
-    // cl (colorToChange, direction)
-    // cl (decColor)
+function getRandomColorChange(colorArray) { // Return integer 0,1,2 and 'up'/'down'
+
+    let direction = ''
+
+    const randomColor = Math.round(Math.random() * 2) // Between 0-2
+    const randomDirection = Math.round(Math.random() * 1) //0 up 1 down
+
+    if (colorArray[randomColor] <= 0) 
+        direction = 'up'
+    else if (colorArray[randomColor] >= 255) 
+        direction = 'down'
+    else if (randomDirection  == 0)
+        direction = 'up'
+    else 
+        direction = 'down'
+
+    const colorDirectionArray = [randomColor, direction]; // eg [1, 'down']
+    return colorDirectionArray
+}
+
+
+crazyColor('#000000')
+
+function crazyColor (hexColor) {        //eg input '#45fe02' output '#45fe03'
+    rgbArray = getRGBDecimalArrayFromHexString(hexColor)
+    randomChange = getRandomColorChange(rgbArray)  //eg [1,'down']
+    colorToChange = randomChange[0] // eg 1
+    direction = randomChange[1]  // eg 'down'
     if (direction == "down")
-        -- decColor[colorToChange]
+        -- rgbArray[colorToChange]
     else
-        ++ decColor[colorToChange]
-    // cl(decColor)
-    finalString = convertBacktoHex(decColor)
+        ++ rgbArray[colorToChange]
+    finalString = getHexStringFromDecimalArray(rgbArray)
     // cl('Finally', finalString)
     return(finalString)
 }

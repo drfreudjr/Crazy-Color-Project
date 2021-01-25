@@ -23,10 +23,7 @@ RGBDecimalsFromHexString = function (hexcolorString) {
     return rgbDecimalArray 
 }
 
-// convertDecimalToHexColor(decColorArray) {  //Takes RGB decimal array returns #hex rgb
-//     cl(decColorArray)
 
-// }
 
 
 function getRandomChange (currentDecimalColor) {    //Tested for all values
@@ -60,6 +57,32 @@ function getRandomChange (currentDecimalColor) {    //Tested for all values
     return colorDirectionArray
 }
 
+function convertBacktoHex(decColor) {
+    decRed = decColor[0]
+    decGreen = decColor[1]
+    decBlue = decColor[2]
+
+    decRed = 120 //test
+    decGreen = 255
+    decBlue = 212
+
+    hexRed = decRed.toString(16)
+    hexGreen = decGreen.toString(16)
+    hexBlue = decBlue.toString(16)
+
+    // cl(hexRed, hexGreen,hexBlue)
+
+    if (hexRed.length == 1)
+        hexRed = "0"+ hexRed
+    if (hexGreen.length ==1)
+        hexGreen = "0" + hexGreen
+    if (hexBlue.length ==1)
+        hexBlue = "0" + hexBlue
+    // cl(hexRed, hexGreen,hexBlue)
+    let finalString = '#' + hexRed + hexGreen + hexBlue
+    // cl(finalString)
+    return(finalString)
+}
 
 function crazyColor (hexColor) {
     decColor = RGBDecimalsFromHexString (hexColor)
@@ -68,29 +91,34 @@ function crazyColor (hexColor) {
     direction = randomChange[0]
     // cl(randomChange)
     // cl (colorToChange, direction)
-    cl (decColor)
+    // cl (decColor)
     if (direction == "down")
         -- decColor[colorToChange]
     else
         ++ decColor[colorToChange]
-    cl(decColor)
-    // finalString = convertDecimalToHexColor(decColor)
+    // cl(decColor)
+    finalString = convertBacktoHex(decColor)
+    // cl('Finally', finalString)
+    return(finalString)
 }
 
-crazyColor('#888888')
+// function drawScreen() {
+//  //make changes here.
+//     currentColor = boxColor
+//     nextColor = crazyColor(currentColor)
+//     cl(currentColor, nextColor)
+//     context.fillStyle = boxColor;
+//     context.lineWidth = 10;
+//     context.fillRect(0,0,400,300)
+//     // cl(boxColor)
+// }
 
-function gameLoop() {    
-    window.setTimeout(gameLoop, 20);    
-    drawScreen()
-}
+// function gameLoop() {    
+//     window.setTimeout(gameLoop, 20);    
+//     drawScreen()
+// }
 
-function drawScreen() {
- //make changes here.
-
-    context.fillStyle = boxColor;
-    context.lineWidth = 10;
-    context.fillRect(0,0,400,300)
-}
-
-
-
+// for (i = 0; i <10; ++i) {
+//     cl('drawing screen')
+//     drawScreen()
+// }

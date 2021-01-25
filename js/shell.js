@@ -4,7 +4,7 @@ let cl = console.log;
 
 const elcanvas = document.querySelector("canvas")
 const context = elcanvas.getContext("2d");
-let boxColor = "#666666"                            //Starting color
+                            //Starting color
 
 
 
@@ -62,9 +62,6 @@ function getRandomColorChange(colorArray) { // Return integer 0,1,2 and 'up'/'do
     return colorDirectionArray
 }
 
-
-crazyColor('#000000')
-
 function crazyColor (hexColor) {        //eg input '#45fe02' output '#45fe03'
     rgbArray = getRGBDecimalArrayFromHexString(hexColor)
     randomChange = getRandomColorChange(rgbArray)  //eg [1,'down']
@@ -79,23 +76,29 @@ function crazyColor (hexColor) {        //eg input '#45fe02' output '#45fe03'
     return(finalString)
 }
 
-// function drawScreen() {
-//  //make changes here.
-//     currentColor = boxColor
-//     nextColor = crazyColor(currentColor)
-//     cl(currentColor, nextColor)
-//     context.fillStyle = boxColor;
-//     context.lineWidth = 10;
-//     context.fillRect(0,0,400,300)
-//     // cl(boxColor)
-// }
 
-// function gameLoop() {    
-//     window.setTimeout(gameLoop, 20);    
-//     drawScreen()
-// }
 
-// for (i = 0; i <10; ++i) {
-//     cl('drawing screen')
-//     drawScreen()
-// }
+let boxColor = "#000000"
+
+
+function drawScreen() {
+ //make changes here.
+    cl(boxColor)
+    context.fillStyle = boxColor;
+    context.lineWidth = 10;
+    context.fillRect(0,0,400,300)
+    boxColor = crazyColor(boxColor)
+    cl(boxColor)
+    // cl(boxColor)
+}
+
+// drawScreen()
+
+function gameLoop() {    
+    window.setTimeout(gameLoop, 10);    
+    drawScreen()
+}
+
+gameLoop();
+
+
